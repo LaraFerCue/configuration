@@ -101,7 +101,10 @@ endif
 colorscheme elflord
 set number
 set numberwidth=4
-set shiftwidth=4 tabstop=4 expandtab
+set shiftwidth=4 tabstop=4
+set list
+set listchars=tab:\|.,trail:-,nbsp:?
+highlight SpecialKey ctermfg=DarkGray
 
 "if has("cscope")
 "    set csprg=/usr/local/bin/cscope
