@@ -169,6 +169,9 @@ bar {
         status_command i3status
 }
 
+# Set up the background image
+exec --no-startup-id nitrogen --restore
+
 #######################################################################
 # automatically start i3-config-wizard to offer the user to create a
 # keysym-based config which used their favorite modifier (alt or windows)

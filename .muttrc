@@ -1,0 +1,13 @@
+set editor	= "vim"
+set realname	= "Roberto Fernandez Cueto"
+
+color status black green 
+color indicator black green
+color search black green
+color markers green black
+color normal green black
+color message black green
+color error white red
+color prompt green black
+
+source ~/.mutt_accounts
