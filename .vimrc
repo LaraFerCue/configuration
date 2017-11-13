@@ -98,14 +98,15 @@ if !exists(":DiffOrig")
 		  \ | wincmd p | diffthis
 endif
 
-colorscheme elflord
-set number
+colorscheme morning
 set numberwidth=4
-set shiftwidth=4 tabstop=4
+set tabstop=8
 set list
 set listchars=tab:\|.,trail:-,nbsp:?
-highlight SpecialKey ctermfg=DarkGray
+highlight SpecialKey ctermfg=White
 
+highlight OverLength ctermfg=white ctermbg=red
+match OverLength /\%73v.\+/
 "if has("cscope")
 "    set csprg=/usr/local/bin/cscope
 "    set csto=0

@@ -1,0 +1,6 @@
+[ui]
+theme=hacker
+
+[connection]
+defaccount=bally
+account=bally
