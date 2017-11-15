@@ -1,19 +1,22 @@
 set editor	= "vim"
 set realname	= "Roberto Fernandez Cueto"
 
-color attachment white black
-#color body green black
-color bold green black
+alternative_order text/plain text/enriched text/html
+auto_view text/html
+
+color attachment white default #black
+#color body green default #black
+color bold green default #black
 color error white red
-#color header green black
-color hdrdefault green black
-#color index green black
+#color header green default #black
+color hdrdefault green default #black
+#color index green default #black
 color indicator black green
-color markers green black
+color markers green default #black
 color message black green
-color normal green black
-color prompt green black
-color quoted cyan black
+color normal green default #black
+color prompt green default #black
+color quoted cyan default #black
 color search black green
 color signature black green
 color status black green

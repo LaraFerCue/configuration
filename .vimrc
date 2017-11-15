@@ -98,7 +98,7 @@ if !exists(":DiffOrig")
 		  \ | wincmd p | diffthis
 endif
 
-colorscheme morning
+set encoding=utf-8
 set numberwidth=4
 set tabstop=8
 set list
