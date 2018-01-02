@@ -1,6 +1,6 @@
 # i3 config file (v4)
 #
-# Please see http://i3wm.org/docs/userguide.html for a complete reference!
+# Please see https://i3wm.org/docs/userguide.html for a complete reference!
 #
 # This config file uses keycodes (bindsym) and was written for the QWERTY
 # layout.
@@ -134,7 +134,6 @@ bindsym Mod1+Shift+c reload
 bindsym Mod1+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym Mod1+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
-bindsym Mod1+Shift+x exec "i3-nagbar -t warning -m 'You pressed the shutdown shortcut. Do you really want to leave?' -b 'Yes' '/sbin/shutdown -p now"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -161,7 +160,6 @@ mode "resize" {
 }
 
 bindsym Mod1+r mode "resize"
-bindsym Ctrl+Mod1+l exec i3lock
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
@@ -182,3 +180,5 @@ exec --no-startup-id nitrogen --restore
 # Please remove the following exec line:
 #######################################################################
 exec i3-config-wizard
+
+bindsym Mod1+Ctrl+l exec i3lock

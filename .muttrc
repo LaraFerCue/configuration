@@ -1,16 +1,27 @@
+# Set the editor and the realname for mutt
 set editor	= "vim"
 set realname	= "Roberto Fernandez Cueto"
 
-alternative_order text/plain text/enriched text/html
-auto_view text/html
+# Active directory binding.
+set query_command = "/usr/local/bin/perl -Tw ~/mutt-ldap.pl '%s'"
+bind editor "\t" complete-query
 
+# Charset bindings
+charset-hook ^us-ascii$ cp1252
+charset-hook ^iso-8859-1$ cp1252
+
+set assumed_charset="cp1252"
+
+# HTML viewer
+#alternative_order text/plain text/enriched text/html
+#auto_view text/html
+#bind attach <return> view-mailcap
+
+# Coloring mutt
 color attachment white default #black
-#color body green default #black
 color bold green default #black
 color error white red
-#color header green default #black
 color hdrdefault green default #black
-#color index green default #black
 color indicator black green
 color markers green default #black
 color message black green
@@ -24,5 +35,72 @@ color tilde black green
 color tree black green
 color underline black green
 
+# Signature
+set sig_dashes=no
+set signature="sigpager|"
+
+# URL Browser
+macro index,pager,attach ,u "\
+<enter-command> set my_pipe_decode=\$pipe_decode my_wait_key=\$wait_key \
+pipe_decode=no wait_key=no<enter>\
+<pipe-message> urlpager<enter>\
+<enter-command> set pipe_decode=\$my_pipe_decode wait_key=\$my_wait_key \
+&my_pipe_decode &my_wait_key<enter>\
+" "go to nay url"
+
+macro index,pager,attach ,t "\
+<enter-command> set my_pipe_decode=\$pipe_decode my_wait_key=\$wait_key \
+pipe_decode=no wait_key=no<enter>\
+<pipe-message> urlpager -b w3m -pweb<enter>\
+<enter-command> set pipe_decode=\$my_pipe_decode wait_key=\$my_wait_key \
+&my_pipe_decode &my_wait_key<enter>\
+" "text browse web"
+
+# wrap as $display_filter
+set my_wrapfilter="wrap -M -e \"\\|\" -w $my_wrapwidth -H"
+set my_wrapfilter_i="wrap -M -e \"\\|\" -i $my_wrapwidth -H"
+set my_wrapfilter_r="wrap -M -e \"\\|\" -r $my_wrapwidth -H"
+set display_filter=""
+macro pager <F4> "\
+<enter-command> set display_filter=''<enter>\
+<exit><display-message>" "Default display"
+macro pager ,w "\
+<enter-command> set display_filter='$my_wrapfilter'<enter>\
+<exit><display-message>\
+<enter-command> set display_filter=''<enter>\
+" "Wrap65"
+macro pager ,i "\
+<enter-command> set display_filter='$my_wrapfilter_i'<enter>\
+<exit><display-message>\
+<enter-command> set display_filter=''<enter>\
+" "Wrap65 indent starting paragraph"
+macro pager ,r "\
+<enter-command> set display_filter='$my_wrapfilter_r'<enter>\
+<exit><display-message>\
+<enter-command> set display_filter=''<enter>\
+" "Wrap65 respecting line breaks"
+
+# call viewhtmlmsg from macro
+macro index,pager <F7> "\
+<enter-command> set my_pipe_decode=\$pipe_decode my_wait_key=\$wait_key \
+pipe_decode=no wait_key=no<enter>\
+<pipe-message> viewhtmlmsg<enter>\
+<enter-command> set pipe_decode=\$my_pipe_decode wait_key=\$my_wait_key \
+&my_pipe_decode &my_wait_key<enter>\
+" "view HTML in browser"
+macro index,pager <F8> "\
+<enter-command> set my_pipe_decode=\$pipe_decode my_wait_key=\$wait_key \
+pipe_decode=no wait_key=no<enter>\
+<pipe-message> viewhtmlmsg -s<enter>\
+<enter-command> set pipe_decode=\$my_pipe_decode wait_key=\$my_wait_key \
+&my_pipe_decode &my_wait_key<enter>\
+" "view HTML (safe) in browser"
+
+
 source ~/.mutt_accounts
+<<<<<<< HEAD
 source ~/.mutt_book
+=======
+alias st.schaller \"Schaller, Steffen\" <st.schaller@bally-wulff.de>
+alias sm.mischke \"Mischke, Sarah Michelle\" <sm.mischke@bally-wulff.de>
+>>>>>>> 0ffd7f32903b8c165fc0243956dd23db4734298a
