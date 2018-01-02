@@ -98,5 +98,9 @@ pipe_decode=no wait_key=no<enter>\
 
 
 source ~/.mutt_accounts
+<<<<<<< HEAD
+source ~/.mutt_book
+=======
 alias st.schaller \"Schaller, Steffen\" <st.schaller@bally-wulff.de>
 alias sm.mischke \"Mischke, Sarah Michelle\" <sm.mischke@bally-wulff.de>
+>>>>>>> 0ffd7f32903b8c165fc0243956dd23db4734298a
