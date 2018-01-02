@@ -25,3 +25,4 @@ color tree black green
 color underline black green
 
 source ~/.mutt_accounts
+source ~/.mutt_book
