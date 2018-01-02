@@ -1,8 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =6
-let g:netrw_dirhist_1='/usr/home/roberto/jenkins/buildBase/amd64/10-STABLE-2-pX'
-let g:netrw_dirhist_2='/usr/home/roberto/jenkins/buildBase/amd64'
-let g:netrw_dirhist_3='/usr/home/roberto/jenkins/buildBase/amd64/branches'
-let g:netrw_dirhist_4='/usr/home/roberto/jenkins/buildBase/amd64'
-let g:netrw_dirhist_5='/usr/home/roberto/jenkins/buildBase'
-let g:netrw_dirhist_6='/usr/home/roberto/jenkins/buildBase/i386'

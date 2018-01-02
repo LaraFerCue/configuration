@@ -172,6 +172,10 @@ bar {
 # Set up the background image
 exec --no-startup-id nitrogen --restore
 
+# Desktop snapshot
+bindsym Print exec scrot -e 'mv $f /tmp/ && gimp /tmp/$f'
+bindsym Mod1+Print exec scrot -s -e 'mv $f /tmp/ && gimp /tmp/$f'
+
 #######################################################################
 # automatically start i3-config-wizard to offer the user to create a
 # keysym-based config which used their favorite modifier (alt or windows)
