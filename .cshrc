@@ -7,6 +7,10 @@ alias la	ls -aF
 alias lf	ls -FA
 alias ll	ls -lAF
 
+alias heimdall		ssh root@heimdall
+alias malekith		ssh root@malekith
+alias os-buildnode	ssh root@os-buildnode
+
 # A righteous umask
 umask 22
 

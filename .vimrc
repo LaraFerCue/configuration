@@ -103,7 +103,19 @@ set numberwidth=4
 set tabstop=8
 set list
 set listchars=tab:\|.,trail:-,nbsp:?
+set shell=/bin/sh
 highlight SpecialKey ctermfg=White
+
+set statusline +=%#warningmsg#
+set statusline +=%{SyntasticStatuslineFlag()}
+set statusline +=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 1
+
+let $PYTHONPATH .= ':.'
 
 highlight OverLength ctermfg=white ctermbg=red
 match OverLength /\%73v.\+/
