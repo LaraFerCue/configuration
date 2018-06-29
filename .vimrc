@@ -117,8 +117,6 @@ let g:syntastic_check_on_wq = 1
 
 let $PYTHONPATH .= ':.'
 
-highlight OverLength ctermfg=white ctermbg=red
-match OverLength /\%73v.\+/
 "if has("cscope")
 "    set csprg=/usr/local/bin/cscope
 "    set csto=0
