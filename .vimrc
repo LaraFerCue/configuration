@@ -98,7 +98,7 @@ if !exists(":DiffOrig")
 		  \ | wincmd p | diffthis
 endif
 
-set encoding=utf-8
+set encoding=iso-8859-1
 set numberwidth=4
 set tabstop=8
 set list
