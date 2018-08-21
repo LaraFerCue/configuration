@@ -43,7 +43,7 @@ run_watch DHCP {
 
 tztime local {
 	format = "%d.%m.%Y %H:%M:%S"
-	timezone = "Europe/London"
+	timezone = "Europe/Berlin"
 }
 
 tztime berlin {
