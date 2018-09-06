@@ -96,7 +96,9 @@ wlan()
 ipv4()
 {
 	local ipv4=$(get_ipv4 "${ETH_NIC}")
-	if [ "${ipv4}" ] ; then
+
+	if ifconfig "${ETH_NIC}" | grep -qE '[[:space:]]status:[[:space:]]active'&& \
+		[ "${ipv4}" ] ; then
 		print_info "E: ${ipv4}/${bits}" ipv4 '#00FF00'
 	else
 		print_info "E: down" ipv4 '#FF0000'
