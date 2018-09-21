@@ -18,13 +18,33 @@ _continue()
 	STOPPED=false
 }
 
+is_nic_active()
+{
+	ifconfig "${1}" | \
+		grep -qE '[[:space:]]status:[[:space:]](active|associated)'
+}
+
+vpn()
+{
+	if ! ifconfig tun0 > /dev/null 2>/dev/null ; then
+		print_info 'VPN' vpn '#FF0000'
+	else
+		print_info 'VPN' vpn '#00FF00'
+	fi
+}
+
 get_ipv4()
 {
 	local NIC="${1}"
 
+	# If the nic is down, print nothing
+	if ! is_nic_active "${NIC}" ; then
+		return
+	fi
+
 	local ipv4=$(ifconfig "${NIC}" | \
 		grep -E '[[:space:]]inet[[:space:]]' | awk '{ print $2}')
-	local mask=$(ifconfig "${ETH_NIC}" | \
+	local mask=$(ifconfig "${NIC}" | \
 		grep -E '[[:space:]]inet[[:space:]]' | awk '{ print $4}')
 	local bits=0
 
@@ -97,8 +117,7 @@ ipv4()
 {
 	local ipv4=$(get_ipv4 "${ETH_NIC}")
 
-	if ifconfig "${ETH_NIC}" | grep -qE '[[:space:]]status:[[:space:]]active'&& \
-		[ "${ipv4}" ] ; then
+	if is_nic_active "${ETH_NIC}" && [ "${ipv4}" ] ; then
 		print_info "E: ${ipv4}/${bits}" ipv4 '#00FF00'
 	else
 		print_info "E: down" ipv4 '#FF0000'
@@ -112,10 +131,10 @@ battery()
 		local bat_time=$(sysctl -n hw.acpi.battery.time)
 		local bat_time_txt='' units=0 color=""
 
-		if [ "${life}" -lt 25 ] ; then
-			color='#FFFF00'
-		elif [ "${life}" -lt 10 ] ; then
+		if [ "${life}" -lt 10 ] ; then
 			color='#FF0000'
+		elif [ "${life}" -lt 25 ] ; then
+			color='#FFFF00'
 		fi
 		while [ "${bat_time}" -gt 0 ] ; do
 			case "${units}" in
@@ -181,8 +200,9 @@ echo '{"version":1}' | tee -a "${LOG_FILE}"
 echo '[' | tee -a "${LOG_FILE}"
 while true ; do
 	if ! ${STOPPED} ; then
-		printf "[%s,%s,%s,%s,%s,%s,%s,%s,%s],\n" \
+		printf "[%s,%s,%s,%s,%s,%s,%s,%s,%s,%s],\n" \
 			"$(_uptime)" \
+			"$(vpn)" \
 			"$(ipv6)" \
 			"$(ipv4)" \
 			"$(wlan)" \
