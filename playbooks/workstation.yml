@@ -50,4 +50,7 @@
                 - { src: 'config/muttrc',       dest: '~/.muttrc'       }
                 - { src: 'config/mailcap',      dest: '~/.mailcap'      }
                 - { src: 'config/cshrc',        dest: '~/.cshrc'        }
+        - name: Loading the kmod coretemp on rc
+          become: yes
+          command: sysrc kld_list+=coretemp
 ...
