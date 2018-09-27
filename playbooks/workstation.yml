@@ -32,13 +32,13 @@
           synchronize: src={{ item.src }} dest={{ item.dest }}
           with_items:
                 - { src: 'vim/vimrc',           dest: '~/.vimrc' }
+                - { src: 'vim/after',           dest: '~/.vim/'    }
+                - { src: 'vim/autoload',        dest: '~/.vim/' }
+                - { src: 'vim/doc',             dest: '~/.vim/'      }
+                - { src: 'vim/plugin',          dest: '~/.vim/'   }
+                - { src: 'vim/syntax',          dest: '~/.vim/'   }
+                - { src: 'vim/syntax_checkers', dest: '~/.vim/' }
                 - { src: 'vim/netrwhist',       dest: '~/.vim/.netrwhist' }
-                - { src: 'vim/after',           dest: '~/.vim/after'    }
-                - { src: 'vim/autoload',        dest: '~/.vim/autoload' }
-                - { src: 'vim/doc',             dest: '~/.vim/doc'      }
-                - { src: 'vim/plugin',          dest: '~/.vim/plugin'   }
-                - { src: 'vim/syntax',          dest: '~/.vim/syntax'   }
-                - { src: 'vim/syntax_checkers', dest: '~/.vim/syntax_checkers' }
         - name: Configure profanity
           copy:
                   src: 'profanity/profrc'
