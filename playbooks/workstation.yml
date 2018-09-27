@@ -1,0 +1,24 @@
+---
+- name: Setup for workstations (Email, web-browsing, ...)
+  hosts: workstations
+  tasks:
+        - name: Install packages
+          become: yes
+          package: name={{ item.name }} state={{ item.state }}
+          with_items:
+                - { name: 'xorg',               state: 'present' }
+                - { name: 'i3',                 state: 'present' }
+                - { name: 'i3status',           state: 'present' }
+                - { name: 'i3lock',             state: 'present' }
+                - { name: 'vim-console',        state: 'present' }
+                - { name: 'firefox',            state: 'present' }
+                - { name: 'tmux',               state: 'present' }
+                - { name: 'htop',               state: 'present' }
+                - { name: 'apache24',           state: 'absent'  }
+                - { name: 'cups',               state: 'present' }
+                - { name: 'neomutt',            state: 'present' }
+                - { name: 'profanity',          state: 'present' }
+                - { name: 'rxvt-unicode',       state: 'present' }
+                - { name: 'slim',               state: 'present' }
+                - { name: 'thunderbird',        state: 'absent'  }
+...

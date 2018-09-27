@@ -1,0 +1,16 @@
+---
+- name: Setup for developing
+  hosts: workstations
+  tasks:
+        - name: Install packages
+          become: yes
+          package: name={{ item.name }} state={{ item.state }}
+          with_items:
+                - { name: 'virutalbox-ose-kmod-5.2.16', state: 'present' }
+                - { name: 'virutalbox-ose-5.2.16_2',    state: 'present' }
+                - { name: 'intellij-ultimate',          state: 'present' }
+                - { name: 'vagrant',                    state: 'present' }
+                - { name: 'python36',                   state: 'present' }
+                - { name: 'python3',                    state: 'present' }
+                - { name: 'py36-pipenv',                state: 'present' }
+...
