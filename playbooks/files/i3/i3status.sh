@@ -177,12 +177,12 @@ temp()
 time_berlin()
 {
 	local _time=$(env TZ="Europe/Berlin" date '+%H:%M')
-	print_info "DE: ${_time}" 'time'
+	print_info "CEST: ${_time}" 'time'
 }
 
 date_time_locale()
 {
-	local date=$(date '+%d.%m.%Y %H:%M')
+	local date=$(date '+%Z: %d.%m.%Y %H:%M')
 	print_info "${date}" locale_date
 }
 
