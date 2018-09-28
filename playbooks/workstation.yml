@@ -2,55 +2,57 @@
 - name: Setup for workstations (Email, web-browsing, ...)
   hosts: workstations
   tasks:
-        - name: Install packages
-          become: yes
-          package: name={{ item.name }} state={{ item.state }}
-          with_items:
-                - { name: 'xorg',               state: 'present' }
-                - { name: 'i3',                 state: 'present' }
-                - { name: 'i3status',           state: 'present' }
-                - { name: 'i3lock',             state: 'present' }
-                - { name: 'vim-console',        state: 'present' }
-                - { name: 'firefox',            state: 'present' }
-                - { name: 'tmux',               state: 'present' }
-                - { name: 'htop',               state: 'present' }
-                - { name: 'apache24',           state: 'absent'  }
-                - { name: 'cups',               state: 'present' }
-                - { name: 'neomutt',            state: 'present' }
-                - { name: 'profanity',          state: 'present' }
-                - { name: 'rxvt-unicode',       state: 'present' }
-                - { name: 'slim',               state: 'present' }
-                - { name: 'rsync',               state: 'present' }
-                - { name: 'thunderbird',        state: 'absent'  }
-        - name: Configure i3
-          copy: src={{ item.src }} dest={{ item.dest }}
-          with_items:
-                - { src: 'i3/i3_config',        dest: '~/.config/i3/config'       }
-                - { src: 'i3/i3status_config',  dest: '~/.config/i3status/config' }
-                - { src: 'i3/i3status.sh',      dest: '~/.i3/i3status.sh'         }
-        - name: Configure vim
-          synchronize: src={{ item.src }} dest={{ item.dest }}
-          with_items:
-                - { src: 'vim/vimrc',           dest: '~/.vimrc' }
-                - { src: 'vim/after',           dest: '~/.vim/'    }
-                - { src: 'vim/autoload',        dest: '~/.vim/' }
-                - { src: 'vim/doc',             dest: '~/.vim/'      }
-                - { src: 'vim/plugin',          dest: '~/.vim/'   }
-                - { src: 'vim/syntax',          dest: '~/.vim/'   }
-                - { src: 'vim/syntax_checkers', dest: '~/.vim/' }
-                - { src: 'vim/netrwhist',       dest: '~/.vim/.netrwhist' }
-        - name: Configure profanity
-          copy:
-                  src: 'profanity/profrc'
-                  dest: '~/.config/profanity/profrc'
-        - name: Configure mutt, xorg, csh, mailcap
-          copy: src={{ item.src }} dest={{ item.dest }}
-          with_items:
-                - { src: 'config/Xdefaults',    dest: '~/.Xdefaults'    }
-                - { src: 'config/muttrc',       dest: '~/.muttrc'       }
-                - { src: 'config/mailcap',      dest: '~/.mailcap'      }
-                - { src: 'config/cshrc',        dest: '~/.cshrc'        }
-        - name: Loading the kmod coretemp on rc
-          become: yes
-          command: sysrc kld_list+=coretemp
+    - name: Install packages
+      become: yes
+      package: name={{ item.name }} state={{ item.state }}
+      with_items:
+        - { name: 'xorg',               state: 'present' }
+        - { name: 'i3',                 state: 'present' }
+        - { name: 'i3status',           state: 'present' }
+        - { name: 'i3lock',             state: 'present' }
+        - { name: 'vim-console',        state: 'present' }
+        - { name: 'firefox',            state: 'present' }
+        - { name: 'tmux',               state: 'present' }
+        - { name: 'htop',               state: 'present' }
+        - { name: 'apache24',           state: 'absent'  }
+        - { name: 'cups',               state: 'present' }
+        - { name: 'neomutt',            state: 'present' }
+        - { name: 'profanity',          state: 'present' }
+        - { name: 'rxvt-unicode',       state: 'present' }
+        - { name: 'slim',               state: 'present' }
+        - { name: 'rsync',               state: 'present' }
+        - { name: 'thunderbird',        state: 'absent'  }
+    - name: Configure i3
+      copy: src={{ item.src }} dest={{ item.dest }}
+      with_items:
+        - { src: 'i3/i3_config',        dest: '~/.config/i3/config'       }
+        - { src: 'i3/i3status_config',  dest: '~/.config/i3status/config' }
+        - { src: 'i3/i3status.sh',      dest: '~/.i3/i3status.sh'         }
+    - name: Configure vim
+      block:
+        - file:
+            path: ~/.vim/autoload
+            state: directory
+        - synchronize:
+            src: vim/vimrc
+            dest: ~/.vimrc
+        - get_url:
+            url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+            dest: ~/.vim/autoload/plug.vim
+    - name: Configure profanity
+      copy:
+        src: 'profanity/profrc'
+        dest: '~/.config/profanity/profrc'
+    - name: Configure mutt, xorg, csh, mailcap
+      copy: src={{ item.src }} dest={{ item.dest }}
+      with_items:
+        - { src: 'config/Xdefaults',    dest: '~/.Xdefaults'    }
+        - { src: 'config/muttrc',       dest: '~/.muttrc'       }
+        - { src: 'config/mailcap',      dest: '~/.mailcap'      }
+        - { src: 'config/cshrc',        dest: '~/.cshrc'        }
+        - { src: 'config/tmux.conf',    dest: '~/.tmux.conf'    }
+    - name: Loading the kmod coretemp on rc
+      become: yes
+      command: sysrc kld_list+=coretemp
+      when: ansible_os_family == "FreeBSD"
 ...
