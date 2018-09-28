@@ -1,3 +1,14 @@
+call plug#begin('~/.vim/plugged')
+Plug 'junegunn/vim-plug'
+Plug 'vim-scripts/FuzzyFinder'
+Plug 'vim-scripts/L9'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'editorconfig/editorconfig-core-c'
+Plug 'vim-scripts/Syntastic'
+Plug 'vim-scripts/taglist.vim'
+Plug 'vim-scripts/vcscommand.vim'
+call plug#end()
+
 " An example for a vimrc file.
 "
 " Maintainer:	Bram Moolenaar <Bram@vim.org>
@@ -109,6 +120,7 @@ highlight SpecialKey ctermfg=White
 set statusline +=%#warningmsg#
 set statusline +=%{SyntasticStatuslineFlag()}
 set statusline +=%*
+
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
