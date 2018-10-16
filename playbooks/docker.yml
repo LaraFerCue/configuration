@@ -1,4 +1,6 @@
 ---
+# http://daemon-notes.com/articles/network/docker
+# Run the commands to launch the first docker vm
 - name: Setup for using docker
   hosts: workstations
   tasks:
