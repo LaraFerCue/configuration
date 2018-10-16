@@ -1,0 +1,32 @@
+---
+- name: Setup for using docker
+  hosts: workstations
+  tasks:
+    - name: Install packages
+      become: yes
+      package: name={{ item.name }} state={{ item.state }}
+      with_items:
+        - { name: 'docker',             state: 'present' }
+        - { name: 'docker-machine',     state: 'present' }
+        - { name: 'docker-compose',     state: 'present' }
+    - name: Create docker directory
+      file:
+        path: ~/.docker
+        state: directory
+        owner: roberto
+    - name: Link docker storage to home directory
+      file:
+        src: /zroot/docker
+        dest: ~/.docker/machine
+        owner: roberto
+        state: link
+    - name: Installing admin tool for docker
+      block:
+        - file:
+            path: ~/bin
+            state: directory
+        - copy:
+            src: 'docker/mydocker.sh'
+            dest: '~/bin/mydocker'
+            mode: 0777
+...
