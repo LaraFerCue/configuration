@@ -107,6 +107,7 @@ wlan()
 	local ipv4=$(get_ipv4 wlan0)
 
 	if [ "${wlan_ssid}" ] && [ "${wlan_ssid}" != '""' ] ;then
+		wlan_ssid=$(echo "${wlan_ssid}" | sed "s,\",',g")
 		print_info "W: ${ipv4} (${wlan_ssid})" wlan '#00FF00'
 	else
 		print_info 'W: down' wlan '#FF0000'
@@ -176,8 +177,8 @@ temp()
 
 time_berlin()
 {
-	local _time=$(env TZ="Europe/Berlin" date '+%H:%M')
-	print_info "CEST: ${_time}" 'time'
+	local _time=$(env TZ="Europe/Berlin" date '+%Z: %H:%M')
+	print_info "${_time}" 'time'
 }
 
 date_time_locale()
