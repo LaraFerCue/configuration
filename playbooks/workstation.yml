@@ -39,6 +39,7 @@
         - get_url:
             url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
             dest: ~/.vim/autoload/plug.vim
+        - shell: 'vim "+PlugInstall | qa"'
     - name: Configure profanity
       copy:
         src: 'profanity/profrc'
