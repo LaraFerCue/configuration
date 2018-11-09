@@ -6,7 +6,6 @@ ETH_NIC='em0'
 
 TEMP_WARN="60"
 TEMP_CRIT="70"
-LOG_FILE=/var/log/system.json
 
 _stop()
 {
@@ -196,9 +195,8 @@ _uptime()
 trap _stop STOP
 trap _cont CONT
 
-touch "${LOG_FILE}"
-echo '{"version":1}' | tee -a "${LOG_FILE}"
-echo '[' | tee -a "${LOG_FILE}"
+echo '{"version":1}'
+echo '['
 while true ; do
 	if ! ${STOPPED} ; then
 		printf "[%s,%s,%s,%s,%s,%s,%s,%s,%s,%s],\n" \
@@ -211,8 +209,8 @@ while true ; do
 			"$(battery)" \
 			"$(temp)" \
 			"$(date_time_locale)" \
-			"$(time_berlin)" | tee -a "${LOG_FILE}"
+			"$(time_berlin)"
 	fi
 	sleep 5
 done
-echo ']' | tee -a "${LOG_FILE}"
+echo ']'

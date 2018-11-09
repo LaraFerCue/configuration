@@ -7,6 +7,7 @@ Plug 'editorconfig/editorconfig-core-c'
 Plug 'vim-scripts/Syntastic'
 Plug 'vim-scripts/taglist.vim'
 Plug 'vim-scripts/vcscommand.vim'
+Plug 'vim-scripts/xml.vim'
 call plug#end()
 
 " An example for a vimrc file.
