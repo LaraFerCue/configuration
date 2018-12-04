@@ -1,6 +1,6 @@
 ---
 - name: Setup for workstations (Email, web-browsing, ...)
-  hosts: workstations
+  hosts: '{{ target }}'
   tasks:
     - name: Install packages
       become: yes
@@ -23,6 +23,14 @@
         - { name: 'rsync',               state: 'present' }
         - { name: 'thunderbird',        state: 'absent'  }
         - { name: 'nitrogen',           state: 'present' }
+    - name: Create configuration directories
+      file: path={{ item.path }} state=directory
+      with_items:
+        - { path: '~/.config' }
+        - { path: '~/.config/i3' }
+        - { path: '~/.config/i3status' }
+        - { path: '~/.config/nitrogen' }
+        - { path: '~/.config/resources' }
     - name: Configure i3
       copy: src={{ item.src }} dest={{ item.dest }}
       with_items:
