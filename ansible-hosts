@@ -1,6 +1,8 @@
-[workstations]
-localhost
-
-[workstations:vars]
-ansible_python_interpreter=/usr/local/bin/python3.6
-
+workstations:
+  hosts:
+    BWEPCFERNANDEZ:
+      hostname: BWEPCFERNANDEZ
+    dev-freebsd:
+      hostname: dev-freebsd
+  vars:
+    ansible_python_interpreter: /usr/local/bin/python3.6
