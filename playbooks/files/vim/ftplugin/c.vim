@@ -1,3 +1,3 @@
-autocmd FileType c TlistAddFiles *.c *.h
-autocmd FileType cpp TlistAddFiles *.cpp *.hpp *.c *.h
-
+TlistAddFiles *.c *.h
+TlistAddFiles *.cpp *.hpp *.c *.h
+TlistToggle
