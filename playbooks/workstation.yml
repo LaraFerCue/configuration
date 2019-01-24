@@ -24,13 +24,21 @@
         - { name: 'thunderbird',        state: 'absent'  }
         - { name: 'nitrogen',           state: 'present' }
     - name: Configure i3
-      copy: src={{ item.src }} dest={{ item.dest }}
-      with_items:
-        - { src: 'i3/i3_config',        dest: '~/.config/i3/config'       }
-        - { src: 'i3/i3status_config',  dest: '~/.config/i3status/config' }
-        - { src: 'i3/i3status.sh',      dest: '~/.i3/i3status.sh'         }
-        - { src: 'config/nitrogen.cfg', dest: '~/.config/nitrogen/nitrogen.cfg'    }
-        - { src: 'resources/background.png', dest: '~/.config/resources/background.png' }
+      block:
+          - file: path={{ item }} state=directory
+            loop:
+                - ~/.config/i3
+                - ~/.config/i3status
+                - ~/.i3
+                - ~/.config/nitrogen
+                - ~/.config/resources
+          - copy: src={{ item.src }} dest={{ item.dest }}
+            with_items:
+                - { src: 'i3/i3_config',        dest: '~/.config/i3/config'       }
+                - { src: 'i3/i3status_config',  dest: '~/.config/i3status/config' }
+                - { src: 'i3/i3status.sh',      dest: '~/.i3/i3status.sh'         }
+                - { src: 'config/nitrogen.cfg', dest: '~/.config/nitrogen/nitrogen.cfg'    }
+                - { src: 'resources/background.png', dest: '~/.config/resources/background.png' }
     - name: Configure vim
       block:
         - file:
