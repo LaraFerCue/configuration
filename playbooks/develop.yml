@@ -6,12 +6,21 @@
           become: yes
           package: name={{ item.name }} state={{ item.state }}
           with_items:
-                - { name: 'virtualbox-ose-kmod-5.2.16', state: 'present' }
-                - { name: 'virtualbox-ose-5.2.16_2',    state: 'present' }
+                - { name: 'virtualbox-ose-kmod',        state: 'present' }
+                - { name: 'virtualbox-ose',             state: 'present' }
                 - { name: 'intellij-ultimate',          state: 'present' }
                 - { name: 'vagrant',                    state: 'present' }
                 - { name: 'python36',                   state: 'present' }
                 - { name: 'python3',                    state: 'present' }
                 - { name: 'py36-pipenv',                state: 'present' }
                 - { name: 'qtcreator',                  state: 'present' }
+                - { name: 'packer',                     state: 'present' }
+        - name: Vim Developer Plugins
+          block:
+                - file:
+                        path: ~/.vim/ftplugin
+                        state: directory
+                - copy: src={{ item.src }} dest={{ item.dest }}
+                  with_items:
+                        - { src: 'vim/ftplugin/c.vim',          dest: '~/.vim/ftplugin/c.vim' }
 ...
