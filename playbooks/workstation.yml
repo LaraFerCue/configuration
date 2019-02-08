@@ -1,6 +1,7 @@
 ---
 - name: Setup for workstations (Email, web-browsing, ...)
-  hosts: '{{ target }}'
+  #  hosts: '{{ target }}'
+  hosts: workstations
   tasks:
     - name: Install packages
       become: yes
@@ -18,9 +19,10 @@
         - { name: 'cups',               state: 'present' }
         - { name: 'neomutt',            state: 'present' }
         - { name: 'profanity',          state: 'present' }
+        - { name: 'pidgin',             state: 'present' }
         - { name: 'rxvt-unicode',       state: 'present' }
         - { name: 'slim',               state: 'present' }
-        - { name: 'rsync',               state: 'present' }
+        - { name: 'rsync',              state: 'present' }
         - { name: 'thunderbird',        state: 'absent'  }
         - { name: 'nitrogen',           state: 'present' }
     - name: Create configuration directories
