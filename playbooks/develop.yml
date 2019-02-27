@@ -22,5 +22,14 @@
                         state: directory
                 - copy: src={{ item.src }} dest={{ item.dest }}
                   with_items:
-                        - { src: 'vim/ftplugin/c.vim',          dest: '~/.vim/ftplugin/c.vim' }
+                        - { src: 'vim/ftplugin/c.vim',      dest: '~/.vim/ftplugin/c.vim' }
+                        - { src: 'vim/ftplugin/yaml.vim',   dest: '~/.vim/ftplugin/yaml.vim' }
+        - name: Custom utility programs
+          block:
+              - file:
+                    path: ~/bin
+                    state: directory
+              - copy: src={{ item.src }} dest={{ item.dest }} mode="a=rx"
+                with_items:
+                    - { src: 'bin/rsync-auto.sh',   dest: '~/bin/rsync-auto' }
 ...
