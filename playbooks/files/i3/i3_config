@@ -188,5 +188,6 @@ bindsym Mod1+Shift+f exec "firefox"
 # Please remove the following exec line:
 #######################################################################
 exec i3-config-wizard
+exec pidgin
 
 bindsym Mod1+Ctrl+l exec i3lock
