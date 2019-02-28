@@ -199,8 +199,8 @@ while true; do
 				"${REMOTE_USER}" \
 				"${EXCLUDE_FILE}"
 		fi
+		create_mtree "${WORKING_DIR}" "${MTREE_FILE}" "${EXCLUDE_FILE}"
 	fi
-	create_mtree "${WORKING_DIR}" "${MTREE_FILE}" "${EXCLUDE_FILE}"
 	sleep 1
 done
 
