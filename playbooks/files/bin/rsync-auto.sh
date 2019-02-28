@@ -110,10 +110,12 @@ parse_arguments()
 				fi
 				;;
 			--remote-user)
-				option="${1}"
+				REMOTE_USER="${1}"
 				shift
-
-				REMOTE_USER="${option}"
+				;;
+			--remote-path)
+				REMOTE_PATH="${1}"
+				shift
 				;;
 		esac
 	done
@@ -199,5 +201,6 @@ while true; do
 		fi
 	fi
 	create_mtree "${WORKING_DIR}" "${MTREE_FILE}" "${EXCLUDE_FILE}"
+	sleep 1
 done
 

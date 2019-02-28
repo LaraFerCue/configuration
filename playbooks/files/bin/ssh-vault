@@ -1,0 +1,4 @@
+#!/bin/sh
+eval `ssh-agent`
+echo 'Adding ~/.ssh/id_rsa to ssh-agent'
+ssh-add ~/.ssh/id_rsa
