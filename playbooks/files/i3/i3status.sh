@@ -192,15 +192,46 @@ _uptime()
 	print_info "Uptime: ${up_time}" uptime
 }
 
+packages()
+{
+	if pkg upgrade -n > /dev/null ; then
+		print_info "PKG updated" pkgs "#00FF00"
+	else
+		print_info "New PKGS" pkgs "#FFFF00"
+	fi
+}
+
+freebsd_updates()
+{
+	local local_rev_number remote_url remote_rev_number system_version
+
+	system_version=$(uname -or)
+	local_rev_number=$(svnlite info /usr/src | \
+		grep -E '^Last Changed Rev' | awk '{print $4}')
+	remote_url=$(svnlite info /usr/src | \
+		grep -E '^URL:' | awk '{print $2}')
+	remote_rev_number=$(svnlite info "${remote_url}" | \
+		grep -E '^Last Changed Rev' | awk '{print $4}')
+
+	if [ "${local_rev_number}" != "${remote_rev_number}" ]
+	then
+		print_info "${system_version} r${local_rev_number} -> r${remote_rev_number}" updates "#FFFF00"
+	else
+		print_info "${system_version} r${local_rev_number}" updates "#00FF00"
+	fi
+}
+
 trap _stop STOP
-trap _cont CONT
+trap  CONT
 
 echo '{"version":1}'
 echo '['
 while true ; do
 	if ! ${STOPPED} ; then
-		printf "[%s,%s,%s,%s,%s,%s,%s,%s,%s,%s],\n" \
+		printf "[%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s],\n" \
 			"$(_uptime)" \
+			"$(packages)" \
+			"$(freebsd_updates)" \
 			"$(vpn)" \
 			"$(ipv6)" \
 			"$(ipv4)" \
