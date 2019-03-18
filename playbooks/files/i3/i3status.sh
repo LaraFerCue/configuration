@@ -7,6 +7,18 @@ ETH_NIC='em0'
 TEMP_WARN="60"
 TEMP_CRIT="70"
 
+PKG_FILE_MARKER=/tmp/new_pkgs
+check_pkgs()
+{
+	while true; do
+		if pkg upgrade -n > /dev/null ; then
+			touch "${PKG_FILE_MARKER}"
+		else
+			rm -f "${PKG_FILE_MARKER}"
+		fi
+	done
+}
+
 _stop()
 {
 	STOPPED=true
@@ -194,7 +206,7 @@ _uptime()
 
 packages()
 {
-	if pkg upgrade -n > /dev/null ; then
+	if [ -f "${PKG_FILE_MARKER}" ] ; then
 		print_info "PKG updated" pkgs "#00FF00"
 	else
 		print_info "New PKGS" pkgs "#FFFF00"
@@ -204,7 +216,7 @@ packages()
 freebsd_updates()
 {
 	local local_rev_number remote_url remote_rev_number system_version
-	local to_update msg
+	local to_update msg color
 
 	system_version=$(uname -or)
 	local_rev_number=$(svnlite info /usr/src | \
@@ -219,28 +231,32 @@ freebsd_updates()
 	if [ "${local_rev_number}" != "${remote_rev_number}" ] && [ "${to_update}" ]
 	then
 		msg="${system_version} r${local_rev_number} -> r${remote_rev_number}"
-		if [ -r "/var/run/system-builder.buildkernel" ] ; then
-			msg="${msg} (BK)"
-		elif [ -r "/var/run/system-builder.buildworld" ] ; then
-			msg="${msg} (BW)"
-		elif [ -r "/var/run/system-builder.ready" ] ; then
-			msg="${msg} (ready to install)"
-		else
+		if ! [ "$(find /var/run -name 'system-builder.*')" ] ; then
 			sudo ~/bin/system-builder \
 				"${local_rev_number}" \
 				"${remote_rev_number}" \
 				"${remote_url}" \
 				/usr/src &
 		fi
-		print_info "${msg}" updates "#FFFF00"
+		color="#FFFF00"
 	else
-		print_info "${system_version} r${local_rev_number}" updates "#00FF00"
+		msg="${system_version} r${local_rev_number}"
+		color="#00FF00"
 	fi
+	if [ -r "/var/run/system-builder.buildkernel" ] ; then
+		msg="${msg} (BK)"
+	elif [ -r "/var/run/system-builder.buildworld" ] ; then
+		msg="${msg} (BW)"
+	elif [ -r "/var/run/system-builder.ready" ] ; then
+		msg="${msg} (ready to install)"
+	fi
+	print_info "${msg}" updates "${color}"
 }
 
 trap _stop STOP
 trap  CONT
 
+check_pkgs &
 echo '{"version":1}'
 echo '['
 while true ; do
