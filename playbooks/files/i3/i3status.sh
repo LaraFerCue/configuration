@@ -11,10 +11,10 @@ PKG_FILE_MARKER=/tmp/new_pkgs
 check_pkgs()
 {
 	while true; do
-		if pkg upgrade -n > /dev/null ; then
-			touch "${PKG_FILE_MARKER}"
-		else
+		if sudo pkg upgrade -n > /dev/null ; then
 			rm -f "${PKG_FILE_MARKER}"
+		else
+			touch "${PKG_FILE_MARKER}"
 		fi
 	done
 }
