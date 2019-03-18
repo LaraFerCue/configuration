@@ -206,7 +206,7 @@ _uptime()
 
 packages()
 {
-	if [ -f "${PKG_FILE_MARKER}" ] ; then
+	if ! [ -f "${PKG_FILE_MARKER}" ] ; then
 		print_info "PKG updated" pkgs "#00FF00"
 	else
 		print_info "New PKGS" pkgs "#FFFF00"
@@ -232,11 +232,15 @@ freebsd_updates()
 	then
 		msg="${system_version} r${local_rev_number} -> r${remote_rev_number}"
 		if ! [ "$(find /var/run -name 'system-builder.*')" ] ; then
-			sudo ~/bin/system-builder \
+			LOG_FILE=/var/log/system-builder
+			sudo touch "${LOG_FILE}"
+			sudo chown "${USER}:${GROUP}" "${LOG_FILE}"
+			sudo sh -xeu "${HOME}/bin/system-builder" \
 				"${local_rev_number}" \
 				"${remote_rev_number}" \
 				"${remote_url}" \
-				/usr/src &
+				/usr/src > "${LOG_FILE}" \
+				2> "${LOG_FILE}" &
 		fi
 		color="#FFFF00"
 	else
