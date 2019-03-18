@@ -77,4 +77,14 @@
       become: yes
       command: sysrc kld_list+=coretemp
       when: ansible_os_family == "FreeBSD"
+    - name: install system builder
+      block:
+          - name: Create bin folder
+            file:
+                path: ~/bin
+                state: directory
+          - name: Install programs
+            copy: src={{ item.src }} dest={{ item.dest }} mode={{ item.mode }}
+            with_items:
+                - { src: 'bin/system-builder.sh', dest: '~/bin/system-builder', mode: '0755' }
 ...

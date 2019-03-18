@@ -204,6 +204,7 @@ packages()
 freebsd_updates()
 {
 	local local_rev_number remote_url remote_rev_number system_version
+	local to_update msg
 
 	system_version=$(uname -or)
 	local_rev_number=$(svnlite info /usr/src | \
@@ -212,10 +213,26 @@ freebsd_updates()
 		grep -E '^URL:' | awk '{print $2}')
 	remote_rev_number=$(svnlite info "${remote_url}" | \
 		grep -E '^Last Changed Rev' | awk '{print $4}')
+	to_update=$(svnlite diff --summarize --revision \
+		"${local_rev_number}:${remote_rev_number}" "${remote_url}")
 
-	if [ "${local_rev_number}" != "${remote_rev_number}" ]
+	if [ "${local_rev_number}" != "${remote_rev_number}" ] && [ "${to_update}" ]
 	then
-		print_info "${system_version} r${local_rev_number} -> r${remote_rev_number}" updates "#FFFF00"
+		msg="${system_version} r${local_rev_number} -> r${remote_rev_number}"
+		if [ -r "/var/run/system-builder.buildkernel" ] ; then
+			msg="${msg} (BK)"
+		elif [ -r "/var/run/system-builder.buildworld" ] ; then
+			msg="${msg} (BW)"
+		elif [ -r "/var/run/system-builder.ready" ] ; then
+			msg="${msg} (ready to install)"
+		else
+			sudo ~/bin/system-builder \
+				"${local_rev_number}" \
+				"${remote_rev_number}" \
+				"${remote_url}" \
+				/usr/src &
+		fi
+		print_info "${msg}" updates "#FFFF00"
 	else
 		print_info "${system_version} r${local_rev_number}" updates "#00FF00"
 	fi
