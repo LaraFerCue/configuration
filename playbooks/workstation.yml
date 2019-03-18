@@ -25,6 +25,7 @@
         - { name: 'rsync',              state: 'present' }
         - { name: 'thunderbird',        state: 'absent'  }
         - { name: 'nitrogen',           state: 'present' }
+        - { name: 'git',                state: 'present' }
     - name: Create configuration directories
       file: path={{ item.path }} state=directory
       with_items:
