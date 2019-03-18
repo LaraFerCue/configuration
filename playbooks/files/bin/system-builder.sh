@@ -8,7 +8,7 @@ SRC_PATH=${4:-/usr/src}
 DIFF_FILE=$(mktemp /tmp/system-builder.XXXXXX)
 svn diff --summarize --revision "${LOCAL_REV}:${REMOTE_REV}" \
 	"${URL}" > "${DIFF_FILE}"
-svn "${SRC_PATH}"
+svn up "${SRC_PATH}"
 
 TARGETS=
 if grep -qE '^[^[:space:]]+[[:space:]]sys/' "${DIFF_FILE}" ; then
