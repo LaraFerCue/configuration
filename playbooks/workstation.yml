@@ -11,6 +11,7 @@
         - { name: 'i3',                 state: 'present' }
         - { name: 'i3status',           state: 'present' }
         - { name: 'i3lock',             state: 'present' }
+        - { name: 'dmenu',              state: 'present' }
         - { name: 'vim-console',        state: 'present' }
         - { name: 'firefox',            state: 'present' }
         - { name: 'tmux',               state: 'present' }
@@ -26,6 +27,7 @@
         - { name: 'thunderbird',        state: 'absent'  }
         - { name: 'nitrogen',           state: 'present' }
         - { name: 'git',                state: 'present' }
+        - { name: 'subversion',         state: 'present' }
     - name: Create configuration directories
       file: path={{ item.path }} state=directory
       with_items:
