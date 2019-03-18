@@ -10,12 +10,13 @@ svn diff --summarize --revision "${LOCAL_REV}:${REMOTE_REV}" \
 	"${URL}" > "${DIFF_FILE}"
 svn up "${SRC_PATH}"
 
+REGEX="^[^[:space:]]+[[:space:]]+${URL}/sys/"
 TARGETS=
-if grep -qE '^[^[:space:]]+[[:space:]]sys/' "${DIFF_FILE}" ; then
+if grep -qE "${REGEX}" "${DIFF_FILE}" ; then
 	TARGETS="${TARGETS} buildkernel"
 fi
 
-if grep -qvE '^[^[:space:]]+[[:space:]]sys/' "${DIFF_FILE}" ; then
+if grep -qvE "${REGEX}" "${DIFF_FILE}" ; then
 	TARGETS="${TARGETS} buildworld"
 fi
 
