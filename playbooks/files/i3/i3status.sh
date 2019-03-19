@@ -7,18 +7,6 @@ ETH_NIC='em0'
 TEMP_WARN="60"
 TEMP_CRIT="70"
 
-PKG_FILE_MARKER=/tmp/new_pkgs
-check_pkgs()
-{
-	while true; do
-		if sudo pkg upgrade -n > /dev/null ; then
-			rm -f "${PKG_FILE_MARKER}"
-		else
-			touch "${PKG_FILE_MARKER}"
-		fi
-	done
-}
-
 _stop()
 {
 	STOPPED=true
@@ -206,7 +194,7 @@ _uptime()
 
 packages()
 {
-	if ! [ -f "${PKG_FILE_MARKER}" ] ; then
+	if ! [ -s "/var/log/pkg-upgrade" ] ; then
 		print_info "PKG updated" pkgs "#00FF00"
 	else
 		print_info "New PKGS" pkgs "#FFFF00"
@@ -215,44 +203,23 @@ packages()
 
 freebsd_updates()
 {
-	local local_rev_number remote_url remote_rev_number system_version
-	local to_update msg color
+	local system_version
+	local msg color
 
 	system_version=$(uname -or)
-	local_rev_number=$(svnlite info /usr/src | \
-		grep -E '^Last Changed Rev' | awk '{print $4}')
-	remote_url=$(svnlite info /usr/src | \
-		grep -E '^URL:' | awk '{print $2}')
-	remote_rev_number=$(svnlite info "${remote_url}" | \
-		grep -E '^Last Changed Rev' | awk '{print $4}')
-	to_update=$(svnlite diff --summarize --revision \
-		"${local_rev_number}:${remote_rev_number}" "${remote_url}")
-
-	if [ "${local_rev_number}" != "${remote_rev_number}" ] && [ "${to_update}" ]
-	then
-		msg="${system_version} r${local_rev_number} -> r${remote_rev_number}"
-		if ! [ "$(find /var/run -name 'system-builder.*')" ] ; then
-			LOG_FILE=/var/log/system-builder
-			sudo touch "${LOG_FILE}"
-			sudo chown "${USER}:${GROUP}" "${LOG_FILE}"
-			sudo sh -xeu "${HOME}/bin/system-builder" \
-				"${local_rev_number}" \
-				"${remote_rev_number}" \
-				"${remote_url}" \
-				/usr/src > "${LOG_FILE}" \
-				2> "${LOG_FILE}" &
-		fi
-		color="#FFFF00"
-	else
-		msg="${system_version} r${local_rev_number}"
-		color="#00FF00"
-	fi
+	msg="${system_version}"
+	color="#00FF00"
 	if [ -r "/var/run/system-builder.buildkernel" ] ; then
-		msg="${msg} (BK)"
+		color="#FFFF00"
+		msg="${msg} $(cat /var/run/system-builder.buildkernel) (BK)"
 	elif [ -r "/var/run/system-builder.buildworld" ] ; then
-		msg="${msg} (BW)"
+		color="#FFFF00"
+		msg="${msg} $(cat /var/run/system-builder.buildkernel) (BW)"
 	elif [ -r "/var/run/system-builder.ready" ] ; then
-		msg="${msg} (ready to install)"
+		color="#FFFF00"
+		msg="${msg} $(cat /var/run/system-builder.buildkernel) (ready to install)"
+	elif [ -r "/var/log/system-builder" ] ; then
+		msg="${msg} $(cat /var/log/system-builder)"
 	fi
 	print_info "${msg}" updates "${color}"
 }

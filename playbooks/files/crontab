@@ -1,0 +1,2 @@
+*/15 * * * * /usr/bin/env pkg upgrade -qn > /var/log/pkg-upgrade
+*/15 * * * * /usr/local/sbin/system-builder /usr/src

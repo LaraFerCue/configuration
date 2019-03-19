@@ -38,14 +38,16 @@
         - { path: '~/.config/resources' }
     - name: Configure i3
       block:
-          - file: path={{ item }} state=directory
+          - name: Create folders needed by i3
+            file: path={{ item }} state=directory
             loop:
                 - ~/.config/i3
                 - ~/.config/i3status
                 - ~/.i3
                 - ~/.config/nitrogen
                 - ~/.config/resources
-          - copy: src={{ item.src }} dest={{ item.dest }}
+          - name: Install configuration files for i3
+            copy: src={{ item.src }} dest={{ item.dest }}
             with_items:
                 - { src: 'i3/i3_config',        dest: '~/.config/i3/config'       }
                 - { src: 'i3/i3status_config',  dest: '~/.config/i3status/config' }
@@ -54,16 +56,20 @@
                 - { src: 'resources/background.png', dest: '~/.config/resources/background.png' }
     - name: Configure vim
       block:
-        - file:
-            path: ~/.vim/autoload
-            state: directory
-        - synchronize:
-            src: vim/vimrc
-            dest: ~/.vimrc
-        - get_url:
-            url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-            dest: ~/.vim/autoload/plug.vim
-        - shell: 'vim "+PlugInstall | qa"'
+          - name: Create vim autoload folder
+            file:
+                path: ~/.vim/autoload
+                state: directory
+          - name: Configure vim
+            synchronize:
+                src: vim/vimrc
+                dest: ~/.vimrc
+          - name: Fetch plugin manager
+            get_url:
+                url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+                dest: ~/.vim/autoload/plug.vim
+          - name: Install the needed plugins for vim
+            shell: 'vim "+PlugInstall | qa"'
     - name: Configure profanity
       copy:
         src: 'profanity/profrc'
@@ -87,7 +93,17 @@
                 path: ~/bin
                 state: directory
           - name: Install programs
+            become: yes
             copy: src={{ item.src }} dest={{ item.dest }} mode={{ item.mode }}
             with_items:
-                - { src: 'bin/system-builder.sh', dest: '~/bin/system-builder', mode: '0755' }
+                - { src: 'bin/system-builder.sh', dest: '/usr/local/sbin/system-builder', mode: '0755' }
+    - name: Setup root's crontab
+      block:
+          - name: Copy crontab
+            copy:
+                src: crontab
+                dest: /tmp/crontab
+          - name: Install crontab
+            become: yes
+            command: crontab -u root /tmp/crontab
 ...
