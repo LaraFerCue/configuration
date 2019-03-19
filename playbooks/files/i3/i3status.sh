@@ -208,18 +208,19 @@ freebsd_updates()
 
 	system_version=$(uname -or)
 	msg="${system_version}"
+	if [ -r "/var/log/system-builder" ] ; then
+		msg="${msg} $(cat /var/log/system-builder)"
+	fi
 	color="#00FF00"
 	if [ -r "/var/run/system-builder.buildkernel" ] ; then
 		color="#FFFF00"
-		msg="${msg} $(cat /var/run/system-builder.buildkernel) (BK)"
+		msg="${msg} (BK)"
 	elif [ -r "/var/run/system-builder.buildworld" ] ; then
 		color="#FFFF00"
-		msg="${msg} $(cat /var/run/system-builder.buildkernel) (BW)"
+		msg="${msg} (BW)"
 	elif [ -r "/var/run/system-builder.ready" ] ; then
 		color="#FFFF00"
-		msg="${msg} $(cat /var/run/system-builder.buildkernel) (ready to install)"
-	elif [ -r "/var/log/system-builder" ] ; then
-		msg="${msg} $(cat /var/log/system-builder)"
+		msg="${msg} (ready to install)"
 	fi
 	print_info "${msg}" updates "${color}"
 }
