@@ -40,8 +40,17 @@ fi
 
 for target in ${TARGETS} ; do
 	echo "${LOCAL_REV} -> ${REMOTE_REV}" > "/var/run/system-builder.${target}"
-	cd "${SRC_PATH}" && make "${target}"
+	cd "${SRC_PATH}" && make "${target} -DNO_CLEAN"
 	rm "/var/run/system-builder.${target}"
 done
 
-echo "${LOCAL_REV} -> ${REMOTE_REV}" > "/var/run/system-builder.ready"
+cat > "/var/run/system-builder.ready" <<READY
+# ${LOCAL_REV} -> ${REMOTE_REV}
+
+for target in ${TARGETS} ; do
+	make install\${target##build}
+	if [ "\${target}" = "buildkernel" ] ; then
+		mergemaster -iF
+	fi
+done
+READY
