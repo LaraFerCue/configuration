@@ -15,6 +15,7 @@
                 - { name: 'py36-pipenv',                state: 'present' }
                 - { name: 'qtcreator',                  state: 'present' }
                 - { name: 'packer',                     state: 'present' }
+                - { name: 'cmake',                      state: 'present' }
         - name: Vim Developer Plugins
           block:
                 - file:
