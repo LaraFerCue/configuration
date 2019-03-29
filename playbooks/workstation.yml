@@ -31,6 +31,7 @@
         - { name: 'libreoffice',        state: 'present' }
         - { name: 'cups-filters',       state: 'present' }
         - { name: 'gutenprint',         state: 'present' }
+        - { name: 'evolution',          state: 'present' }
     - name: Create configuration directories
       file: path={{ item.path }} state=directory
       with_items:
