@@ -16,6 +16,7 @@
                 - { name: 'qtcreator',                  state: 'present' }
                 - { name: 'packer',                     state: 'present' }
                 - { name: 'cmake',                      state: 'present' }
+                - { name: 'hs-ShellCheck',              state: 'present' }
         - name: Vim Developer Plugins
           block:
                 - file:
