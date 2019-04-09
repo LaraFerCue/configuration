@@ -201,28 +201,12 @@ packages()
 	fi
 }
 
-freebsd_updates()
+freebsd_version()
 {
 	local system_version
-	local msg color
 
 	system_version=$(uname -or)
-	msg="${system_version}"
-	if [ -r "/var/log/system-builder" ] ; then
-		msg="${msg} $(cat /var/log/system-builder)"
-	fi
-	color="#00FF00"
-	if [ -r "/var/run/system-builder.buildkernel" ] ; then
-		color="#FFFF00"
-		msg="${msg} (BK)"
-	elif [ -r "/var/run/system-builder.buildworld" ] ; then
-		color="#FFFF00"
-		msg="${msg} (BW)"
-	elif [ -r "/var/run/system-builder.ready" ] ; then
-		color="#FFFF00"
-		msg="${msg} (ready to install)"
-	fi
-	print_info "${msg}" updates "${color}"
+	print_info "${system_version}" updates "#FFFFFF"
 }
 
 trap _stop STOP
@@ -233,10 +217,9 @@ echo '{"version":1}'
 echo '['
 while true ; do
 	if ! ${STOPPED} ; then
-		printf "[%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s],\n" \
+		printf "[%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s],\n" \
 			"$(_uptime)" \
-			"$(packages)" \
-			"$(freebsd_updates)" \
+			"$(freebsd_version)" \
 			"$(vpn)" \
 			"$(ipv6)" \
 			"$(ipv4)" \

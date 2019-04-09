@@ -88,26 +88,24 @@
         - { src: 'config/tmux.conf',    dest: '~/.tmux.conf'    }
     - name: Loading the kmod coretemp on rc
       become: yes
-      command: sysrc kld_list+=coretemp
+      lineinfile: path=/etc/rc.conf regexp={{ item.regexp }} line={{ item.line }} state=present
+      with_items:
+          - { regexp: '^kld_list="\$\{kld_list\} coretemp"',    line: 'kld_list="${kld_list} coretemp"' }
+          - { regexp: '^sendmail_enable="YES"',                 line: 'sendmail_enable="YES"' }
       when: ansible_os_family == "FreeBSD"
-    - name: install system builder
-      block:
-          - name: Create bin folder
-            file:
-                path: ~/bin
-                state: directory
-          - name: Install programs
-            become: yes
-            copy: src={{ item.src }} dest={{ item.dest }} mode={{ item.mode }}
-            with_items:
-                - { src: 'bin/system-builder.sh', dest: '/usr/local/sbin/system-builder', mode: '0755' }
-    - name: Setup root's crontab
-      block:
+    - block:
           - name: Copy crontab
-            copy:
-                src: crontab
-                dest: /tmp/crontab
-          - name: Install crontab
             become: yes
-            command: crontab -u root /tmp/crontab
+            copy:
+                src: update/crontab
+                dest: /root/crontab
+                owner: root
+                group: wheel
+                mode: '0600'
+                validate: /usr/bin/crontab -u root %s
+          - name: Install FreeBSD update configuration file
+            become: yes
+            copy:
+                src: update/freebsd-update.conf
+                dest: /etc/freebsd-update.conf
 ...

@@ -1,0 +1,2 @@
+*/15 * * * * /usr/bin/env pkg upgrade -q | mail -s 'pkg upgrade' lara@localhost
+*/15 * * * * freebsd-update cron
