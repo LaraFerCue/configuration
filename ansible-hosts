@@ -1,8 +1,20 @@
 workstations:
   hosts:
     BWEPCFERNANDEZ:
-      hostname: BWEPCFERNANDEZ
+        hostname: BWEPCFERNANDEZ
+        user: lara
     dev-freebsd:
-      hostname: dev-freebsd
+        hostname: dev-freebsd
+        user: l.fernandez-cueto
+  vars:
+    ansible_python_interpreter: /usr/local/bin/python3.6
+FreeBSD:
+  hosts:
+    BWEPCFERNANDEZ:
+        hostname: BWEPCFERNANDEZ
+        user: lara
+    dev-freebsd:
+        hostname: dev-freebsd
+        user: l.fernandez-cueto
   vars:
     ansible_python_interpreter: /usr/local/bin/python3.6
