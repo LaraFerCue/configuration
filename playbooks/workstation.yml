@@ -5,33 +5,33 @@
   tasks:
     - name: Install packages
       become: yes
-      package: name={{ item.name }} state={{ item.state }}
-      with_items:
-        - { name: 'xorg',               state: 'present' }
-        - { name: 'i3',                 state: 'present' }
-        - { name: 'i3status',           state: 'present' }
-        - { name: 'i3lock',             state: 'present' }
-        - { name: 'dmenu',              state: 'present' }
-        - { name: 'vim-console',        state: 'present' }
-        - { name: 'firefox',            state: 'present' }
-        - { name: 'tmux',               state: 'present' }
-        - { name: 'htop',               state: 'present' }
-        - { name: 'apache24',           state: 'absent'  }
-        - { name: 'cups',               state: 'present' }
-        - { name: 'neomutt',            state: 'present' }
-        - { name: 'profanity',          state: 'present' }
-        - { name: 'pidgin',             state: 'present' }
-        - { name: 'rxvt-unicode',       state: 'present' }
-        - { name: 'slim',               state: 'present' }
-        - { name: 'rsync',              state: 'present' }
-        - { name: 'thunderbird',        state: 'absent'  }
-        - { name: 'nitrogen',           state: 'present' }
-        - { name: 'git',                state: 'present' }
-        - { name: 'subversion',         state: 'present' }
-        - { name: 'libreoffice',        state: 'present' }
-        - { name: 'cups-filters',       state: 'present' }
-        - { name: 'gutenprint',         state: 'present' }
-        - { name: 'evolution',          state: 'present' }
+      package:
+          name: "{{ item }}"
+          state: latest
+      loop:
+        - xorg
+        - i3
+        - i3status
+        - i3lock
+        - dmenu
+        - vim-console
+        - firefox
+        - tmux
+        - htop
+        - cups
+        - neomutt
+        - profanity
+        - pidgin
+        - rxvt-unicode
+        - slim
+        - rsync
+        - thunderbird
+        - nitrogen
+        - git
+        - subversion
+        - libreoffice
+        - cups-filters
+        - gutenprint
     - name: Create configuration directories
       file: path={{ item.path }} state=directory
       with_items:
@@ -82,6 +82,7 @@
       copy: src={{ item.src }} dest={{ item.dest }}
       with_items:
         - { src: 'config/Xdefaults',    dest: '~/.Xdefaults'    }
+        - { src: 'config/xinitrc',      dest: '~/.xinitrc'      }
         - { src: 'config/muttrc',       dest: '~/.muttrc'       }
         - { src: 'config/mailcap',      dest: '~/.mailcap'      }
         - { src: 'config/cshrc',        dest: '~/.cshrc'        }
@@ -103,6 +104,13 @@
                 group: wheel
                 mode: '0600'
                 validate: /usr/bin/crontab -u root %s
+          - name: Install notifier of pkg upgrades
+            become: yes
+            copy:
+                src: bin/update-packages.sh
+                dest: /usr/local/sbin/update-packages
+                mode: 555
+                validate: /bin/sh -eun %s
           - name: Install FreeBSD update configuration file
             become: yes
             copy:

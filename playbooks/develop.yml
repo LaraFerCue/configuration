@@ -4,34 +4,45 @@
   tasks:
         - name: Install packages
           become: yes
-          package: name={{ item.name }} state={{ item.state }}
-          with_items:
-                - { name: 'virtualbox-ose-kmod',        state: 'present' }
-                - { name: 'virtualbox-ose',             state: 'present' }
-                - { name: 'intellij-ultimate',          state: 'present' }
-                - { name: 'vagrant',                    state: 'present' }
-                - { name: 'python36',                   state: 'present' }
-                - { name: 'python3',                    state: 'present' }
-                - { name: 'py36-pipenv',                state: 'present' }
-                - { name: 'qtcreator',                  state: 'present' }
-                - { name: 'packer',                     state: 'present' }
-                - { name: 'cmake',                      state: 'present' }
-                - { name: 'hs-ShellCheck',              state: 'present' }
+          package:
+              name: "{{ item }}"
+              state: latest
+          loop:
+                - virtualbox-ose-kmod
+                - virtualbox-ose
+                - intellij-ultimate
+                - vagrant
+                - python36
+                - python3
+                - py36-pipenv
+                - qtcreator
+                - packer
+                - cmake
+                - hs-ShellCheck
         - name: Vim Developer Plugins
           block:
-                - file:
-                        path: ~/.vim/ftplugin
-                        state: directory
-                - copy: src={{ item.src }} dest={{ item.dest }}
-                  with_items:
-                        - { src: 'vim/ftplugin/c.vim',      dest: '~/.vim/ftplugin/c.vim' }
-                        - { src: 'vim/ftplugin/yaml.vim',   dest: '~/.vim/ftplugin/yaml.vim' }
+              - name: Create vim's plugin folder
+                file:
+                    path: ~/.vim/ftplugin
+                    state: directory
+              - name: Install development plugins for vim
+                copy:
+                    src: "{{ item.src }}"
+                    dest: "~/.vim/ftplugin/{{ item.dest }}"
+                with_items:
+                    - { src: 'vim/ftplugin/c.vim',      dest: 'c.vim' }
+                    - { src: 'vim/ftplugin/yaml.vim',   dest: 'yaml.vim' }
         - name: Custom utility programs
           block:
-              - file:
+              - name: Create user's bin directory
+                file:
                     path: ~/bin
                     state: directory
-              - copy: src={{ item.src }} dest={{ item.dest }} mode="a=rx"
+              - name: Install utilities for the user
+                copy:
+                  src: "{{ item.src }}"
+                  dest: "~/bin/{{ item.dest }}"
+                  mode: "a=rx"
                 with_items:
-                    - { src: 'bin/rsync-auto.sh',   dest: '~/bin/rsync-auto' }
+                    - { src: 'bin/rsync-auto.sh',   dest: 'rsync-auto' }
 ...
