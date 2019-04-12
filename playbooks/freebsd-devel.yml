@@ -1,0 +1,14 @@
+---
+- name: Setup for FreeBSD development (Kernel, ports & utils)
+  hosts: FreeBSD
+
+  tasks:
+      - name: Install packages
+        become: yes
+        package:
+            name: "{{ item }}"
+            state: latest
+        loop:
+            - pot
+            - poudriere
+...
