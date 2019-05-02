@@ -1,5 +1,5 @@
 #!/bin/tcsh
 /usr/local/bin/xset b off
 
-eval `ssh-agent`
+ssh-agent > ~/.ssh-agent
 exec /usr/local/bin/i3

@@ -39,6 +39,8 @@ if ($?prompt) then
 		bindkey -k down history-search-forward
 	endif
 
+	[ -r ${HOME}/.ssh-agent ] && source ${HOME}/.ssh-agent
+
+	ssh-add -l | grep -q "${HOME}/.ssh/id_rsa" || ssh-add
 endif
 
-ssh-add 
