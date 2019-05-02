@@ -20,8 +20,6 @@
         - htop
         - cups
         - neomutt
-        - profanity
-        - pidgin
         - rxvt-unicode
         - slim
         - rsync
@@ -32,6 +30,7 @@
         - libreoffice
         - cups-filters
         - gutenprint
+        - texlive-full
     - name: Create configuration directories
       file: path={{ item.path }} state=directory
       with_items:
@@ -74,10 +73,6 @@
                 dest: ~/.vim/autoload/plug.vim
           - name: Install the needed plugins for vim
             shell: 'vim "+PlugInstall | qa"'
-    - name: Configure profanity
-      copy:
-        src: 'profanity/profrc'
-        dest: '~/.config/profanity/profrc'
     - name: Configure mutt, xorg, csh, mailcap
       copy: src={{ item.src }} dest={{ item.dest }}
       with_items:
