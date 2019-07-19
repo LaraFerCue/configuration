@@ -34,8 +34,9 @@ MAIL
 	exit 1
 fi
 
-if ! pkg upgrade -n >> "${LOG_FILE}" 2>> "${LOG_FILE}" ; then
-	pkg upgrade -n | mail -s "pkg upgrade" "${MAILTO}"
+if ! pkg upgrade --dry-run >> "${LOG_FILE}" 2>> "${LOG_FILE}" ; then
+	pkg upgrade --dry-run | mail -s "pkg upgrade" "${MAILTO}"
+	pkg fetch --yes --available-updates
 else
 	echo "Nothing to do." >> "${LOG_FILE}"
 fi
