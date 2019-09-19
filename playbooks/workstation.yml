@@ -31,6 +31,7 @@
         - cups-filters
         - gutenprint
         - texlive-full
+        - irssi
     - name: Create configuration directories
       file: path={{ item.path }} state=directory
       with_items:
@@ -111,9 +112,13 @@
             copy:
                 src: update/freebsd-update.conf
                 dest: /etc/freebsd-update.conf
+    - name: Create user's bin directory
+      file:
+          path: ~/bin
+          state: directory
     - name: Installing the utility to activate boot environments on encrypted disks
-      become: yes
       copy:
           src: bin/bootenv.sh
           dest: ~/bin/bootenv
+          mode: 0555
 ...
