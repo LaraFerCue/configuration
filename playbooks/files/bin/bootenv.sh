@@ -37,7 +37,7 @@ if [ -z "${boot_environment}" ] || [ -z "${kernel}" ] ; then
 	exit 1
 fi
 
-sed -i '.bak' 's/^kernel=.*$//g' /boot/loader.conf
-echo "kernel=\"${kernel}\"" >> /boot/loader.conf
+sudo sed -i '.bak' 's/^kernel=.*$//g' /boot/loader.conf
+sudo echo "kernel=\"${kernel}\"" >> /boot/loader.conf
 
-beadm activate "${boot_environment}"
+sudo beadm activate "${boot_environment}"
