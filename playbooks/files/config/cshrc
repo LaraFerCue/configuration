@@ -15,8 +15,6 @@ alias os-buildnode	ssh root@os-buildnode
 umask 22
 
 set path = (/sbin /bin /usr/sbin /usr/bin /usr/local/sbin /usr/local/bin $HOME/bin)
-set filec
-set autolist
 
 setenv	EDITOR	vim
 setenv	PAGER	less
@@ -68,4 +66,8 @@ end
 complete service \
 	'p@1@`find /etc/rc.d -type f| sed "s|/etc/rc.d/||"`@' \
 	"p/2/(${service_commands})/"
+
+set hostnames = (`awk '{ if ($0 !~ /^#/) { print $1; print $2; print $3; }}' /etc/hosts`)
+complete ssh \
+	"c/*@/(${hostnames})/"
 set autoexpand
