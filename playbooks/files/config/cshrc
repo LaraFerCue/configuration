@@ -1,5 +1,5 @@
-setenv LANG "en_US.ISO8859-1"
-setenv MM_CHARSET "ISO-8859-1"
+setenv LANG "en_US.UTF-8"
+setenv MM_CHARSET "UTF-8"
 
 alias h		history 25
 alias j		jobs -l
@@ -15,6 +15,8 @@ alias os-buildnode	ssh root@os-buildnode
 umask 22
 
 set path = (/sbin /bin /usr/sbin /usr/bin /usr/local/sbin /usr/local/bin $HOME/bin)
+set filec
+set autolist
 
 setenv	EDITOR	vim
 setenv	PAGER	less
@@ -44,3 +46,26 @@ if ($?prompt) then
 	ssh-add -l | grep -q "${HOME}/.ssh/id_rsa" || ssh-add
 endif
 
+complete make \
+    'n/-f/f/' \
+    'c/*=/f/' \
+    'n@*@`make -V .ALLTARGETS`@'
+
+complete sudo \
+	'p/1/c/' \
+	'n/make/`make -V .ALLTARGETS`/'
+
+complete man \
+	'p/*/c/'
+
+set service_commands = ()
+foreach prefix (fast force one quiet "")
+	foreach command (start stop reload restart status poll rcvar)
+		set service_commands = (${service_commands} ${prefix}${command})
+	end
+end
+
+complete service \
+	'p@1@`find /etc/rc.d -type f| sed "s|/etc/rc.d/||"`@' \
+	"p/2/(${service_commands})/"
+set autoexpand
