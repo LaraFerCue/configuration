@@ -9,6 +9,7 @@ Plug 'vim-scripts/taglist.vim'
 Plug 'vim-scripts/vcscommand.vim'
 Plug 'vim-scripts/c.vim'
 Plug 'vim-scripts/vim-cpp-enhanced-highlight'
+Plug 'ctrlpvim/ctrlp.vim'
 call plug#end()
 
 " An example for a vimrc file.

@@ -49,6 +49,9 @@ complete make \
     'c/*=/f/' \
     'n@*@`make -V .ALLTARGETS`@'
 
+complete dd \
+    'c/*=/f/'
+
 complete sudo \
 	'p/1/c/' \
 	'n/make/`make -V .ALLTARGETS`/'
