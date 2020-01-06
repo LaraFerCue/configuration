@@ -54,7 +54,8 @@ complete dd \
 
 complete sudo \
 	'p/1/c/' \
-	'n/make/`make -V .ALLTARGETS`/'
+	'n/make/`make -V .ALLTARGETS`/' \
+	'n/ifconfig/`ifconfig -l`/'
 
 complete man \
 	'p/*/c/'
@@ -76,4 +77,8 @@ complete ssh \
 
 complete zfs \
 	'n/*/`zfs list -H -o name`/'
+
+complete ifconfig \
+	'p/1/`ifconfig -l`/'
+
 set autoexpand
