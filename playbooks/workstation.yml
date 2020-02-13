@@ -32,6 +32,10 @@
         - gutenprint
         - texlive-full
         - irssi
+        - scrot
+        - gimp
+        - subversion-gnome-keyring
+        - gnome-keyring
     - name: Create configuration directories
       file: path={{ item.path }} state=directory
       with_items:
