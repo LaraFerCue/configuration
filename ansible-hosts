@@ -3,9 +3,9 @@ workstations:
     BWEPCFERNANDEZ:
         hostname: BWEPCFERNANDEZ
         user: lara
-    dev-freebsd:
-        hostname: dev-freebsd
-        user: l.fernandez-cueto
+    bwepcfernandez-laptop:
+        hostname: bwepcfernandez-laptop
+        user: lara
   vars:
     ansible_python_interpreter: /usr/local/bin/python3.6
 FreeBSD:
@@ -13,8 +13,8 @@ FreeBSD:
     BWEPCFERNANDEZ:
         hostname: BWEPCFERNANDEZ
         user: lara
-    dev-freebsd:
-        hostname: dev-freebsd
-        user: l.fernandez-cueto
+    bwepcfernandez-laptop:
+        hostname: bwepcfernandez-laptop
+        user: lara
   vars:
     ansible_python_interpreter: /usr/local/bin/python3.6
