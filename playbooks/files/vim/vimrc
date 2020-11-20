@@ -1,15 +1,14 @@
-call plug#begin('~/.vim/plugged')
-Plug 'junegunn/vim-plug'
-Plug 'vim-scripts/FuzzyFinder'
-Plug 'vim-scripts/L9'
-Plug 'editorconfig/editorconfig-vim'
-Plug 'editorconfig/editorconfig-core-c'
-Plug 'vim-scripts/Syntastic'
-Plug 'vim-scripts/vcscommand.vim'
-Plug 'vim-scripts/c.vim'
-Plug 'vim-scripts/vim-cpp-enhanced-highlight'
-Plug 'ctrlpvim/ctrlp.vim'
-call plug#end()
+let g:plugins = get(g:, 'plugins', [])
+call extend(g:plugins, [{ 'plugin': 'junegunn/vim-plug', 'post': {} }])
+call extend(g:plugins, [{ 'plugin': 'editorconfig/editorconfig-vim', 'post': {} }])
+call extend(g:plugins, [{ 'plugin': 'vim-scripts/Syntastic', 'post': {} }])
+call extend(g:plugins, [{ 'plugin': 'vim-scripts/FuzzyFinder', 'post': {} }])
+call extend(g:plugins, [{ 'plugin': 'vim-scripts/L9', 'post': {} }])
+call extend(g:plugins, [{ 'plugin': 'editorconfig/editorconfig-core-c', 'post': {} }])
+call extend(g:plugins, [{ 'plugin': 'vim-scripts/vcscommand.vim', 'post': {} }])
+call extend(g:plugins, [{ 'plugin': 'vim-scripts/c.vim', 'post': {} }])
+call extend(g:plugins, [{ 'plugin': 'ctrlpvim/ctrlp.vim', 'post': {} }])
+call extend(g:plugins, [{ 'plugin': 'vim-scripts/vim-cpp-enhanced-highlight', 'post': {} }])
 
 " An example for a vimrc file.
 "
@@ -131,6 +130,12 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
 
 let $PYTHONPATH .= ':.'
+
+call plug#begin('~/.vim/plugged')
+	for plugin in g:plugins
+		Plug plugin.plugin, plugin.post
+	endfor
+call plug#end()
 
 "if has("cscope")
 "    set csprg=/usr/local/bin/cscope
