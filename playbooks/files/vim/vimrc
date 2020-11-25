@@ -9,6 +9,7 @@ call extend(g:plugins, [{ 'plugin': 'vim-scripts/vcscommand.vim', 'post': {} }])
 call extend(g:plugins, [{ 'plugin': 'vim-scripts/c.vim', 'post': {} }])
 call extend(g:plugins, [{ 'plugin': 'ctrlpvim/ctrlp.vim', 'post': {} }])
 call extend(g:plugins, [{ 'plugin': 'vim-scripts/vim-cpp-enhanced-highlight', 'post': {} }])
+call extend(g:plugins, [{ 'plugin': 'hashivim/vim-vagrant', 'post': {} }])
 
 " An example for a vimrc file.
 "
